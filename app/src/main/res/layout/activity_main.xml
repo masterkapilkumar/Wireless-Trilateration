@@ -24,16 +24,32 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/captureLocationButton"
+        android:text="Capture AP location"
+        android:layout_below="@+id/getInfoButton"
+        android:layout_marginLeft="5dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/displayLocationButton"
+        android:text="Display AP Location"
+        android:layout_toRightOf="@+id/captureLocationButton"
+        android:layout_below="@+id/getInfoButton"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/captureRssiButton"
         android:text="Capture RSSI"
-        android:layout_below="@+id/getInfoButton"
+        android:layout_below="@+id/captureLocationButton"
         android:layout_marginLeft="60dp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/dispalyRssiButton"
         android:text="Display Rssi"
-        android:layout_below="@+id/getInfoButton"
+        android:layout_below="@+id/captureLocationButton"
         android:layout_toRightOf="@+id/captureRssiButton"/>
     <Button
         android:layout_width="wrap_content"
@@ -49,6 +65,7 @@
         android:text="Calculate Custom Position"
         android:layout_below="@+id/dispalyRssiButton"
         android:layout_toRightOf="@+id/calculatePositionButton"/>
+
 
 
     <TextView
@@ -72,6 +89,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textCursorDrawable="@null"
+            android:text="1"
             android:id="@+id/countEditText"/>
     </LinearLayout>
     <LinearLayout
@@ -83,10 +102,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/r1label"
-            android:text="Enter d,(r1):"/>
+            android:text="Enter d,(r1)/lat,long,(r1):"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textCursorDrawable="@null"
             android:id="@+id/dEditText"/>
     </LinearLayout>
     <LinearLayout
@@ -98,10 +118,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ilabel"
-            android:text="Enter i,(r2):"/>
+            android:text="Enter i,(r2)/lat,long,(r2):"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textCursorDrawable="@null"
             android:id="@+id/iEditText"/>
     </LinearLayout>
     <LinearLayout
@@ -113,10 +134,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/jlabel"
-            android:text="Enter j,(r3):"/>
+            android:text="Enter j,(r3)/lat,long,(r3):"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textCursorDrawable="@null"
             android:id="@+id/jEditText"/>
     </LinearLayout>
 
