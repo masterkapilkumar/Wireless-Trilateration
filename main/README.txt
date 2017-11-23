@@ -1,0 +1,1 @@
+This folder only consists the java and xml code. It does not have required build files as including them resulted in a total size exceeding the limit on moodle. However it has the required apk.

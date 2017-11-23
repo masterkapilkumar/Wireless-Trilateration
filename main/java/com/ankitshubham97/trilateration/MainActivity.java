@@ -1,13 +1,8 @@
 package com.ankitshubham97.trilateration;
 
-import android.Manifest;
-import android.app.Service;
 import android.content.Context;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +18,6 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Timer;
@@ -35,10 +29,6 @@ public class MainActivity extends AppCompatActivity {
     WifiInfo wifiInfo;
     TextView infoText;
     EditText dEditText,iEditText,jEditText,countEditText;
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
-
-
 
     HashMap<String, Double> rssiMap;
 
@@ -58,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         countEditText=(EditText)findViewById(R.id.countEditText);
         rssiMap = new HashMap();
         rssiMap.put("dummy",-49.0);
-        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
 
 
         getInfoButton.setOnClickListener(new View.OnClickListener(){
@@ -116,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
             radii[c-1]=getDistance((double)pair.getValue());
         }
         double res[] = new double[2];
-//        res[0]=(Math.pow(radii[0],2)-Math.pow(radii[1],2)+Math.pow(d,2))/(2*d);
-//        res[1]=(Math.pow(radii[0],2)-Math.pow(radii[2],2)+Math.pow(i,2)+Math.pow(j,2)-(2*i*res[0]))/(2*j);
+        res[0]=(Math.pow(radii[0],2)-Math.pow(radii[1],2)+Math.pow(d,2))/(2*d);
+        res[1]=(Math.pow(radii[0],2)-Math.pow(radii[2],2)+Math.pow(i,2)+Math.pow(j,2)-(2*i*res[0]))/(2*j);
         res[0]=(radii[0]*radii[0]-(radii[1]*radii[1])+(d*d))/(2*d);
         res[1]=((radii[0]*radii[0])-(radii[2]*radii[2])+(i*i)+(j*j)-(2*i*res[0]))/(2*j);
         infoText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
