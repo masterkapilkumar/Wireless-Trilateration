@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                                 Double.parseDouble(iEditText.getText().toString().split(",")[2]),
                                 Double.parseDouble(jEditText.getText().toString().split(",")[2]) );
                         System.out.println("My coordinates: "+myLoc.x+", "+myLoc.y);
-                        myLoc = inverseTransformedCoords(myLoc, data.b);
+                        myLoc = inverseTransformedCoords(myLoc, data.b, data.origin);
                         infoText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         infoText.setText("Coordinates:("+myLoc.x+","+myLoc.y+")");
                         System.out.println("My lat, long: "+myLoc.x+", "+myLoc.y);
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     FourValues<Double, Double, Double, Double> data= getTransformedCoords(false);
                     Tuple<Double, Double> myLoc = calculatePosition(data.x,data.y,data.a);  //d,i,j
                     System.out.println("My coordinates: "+myLoc.x+", "+myLoc.y);
-                    myLoc = inverseTransformedCoords(myLoc, data.b);
+                    myLoc = inverseTransformedCoords(myLoc, data.b, data.origin);
                     infoText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     infoText.setText("Coordinates:("+myLoc.x+","+myLoc.y+")");
                     System.out.println("My lat, long: "+myLoc.x+", "+myLoc.y);
@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
         return ipAddressString;
     }
     protected double getDistance(double rssi){
-        return Math.pow(10,-(rssi+2.425)/23.28);
+        return Math.pow(10,-(rssi+2.425)/23.28)/100000/100;
     }
 
     protected FourValues<Double, Double, Double, Double> getTransformedCoords(boolean custom) {
@@ -362,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
             i_j = new Tuple<>(Double.parseDouble(jEditText.getText().toString().split(",")[0]),
                     Double.parseDouble(jEditText.getText().toString().split(",")[1]));
         }
+
         System.out.println("0,0 = "+origin.x+", "+origin.y);
         System.out.println("d,0 = "+x_axis.x+", "+x_axis.y);
         System.out.println("i,j = "+i_j.x+", "+i_j.y);
@@ -392,14 +393,15 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("d,0 = "+x_axis.x+", "+x_axis.y);
         System.out.println("i,j = "+i_j.x+", "+i_j.y);
 
-        return new FourValues<>(x_axis.x, i_j.x, i_j.y, theta);
+        return new FourValues<>(x_axis.x, i_j.x, i_j.y, theta, origin);
 
     }
 
-    protected Tuple<Double, Double> inverseTransformedCoords(Tuple<Double, Double> prev, Double theta) {
+    protected Tuple<Double, Double> inverseTransformedCoords(Tuple<Double, Double> prev, Double theta, Tuple<Double, Double> origin) {
         Double tempx, tempy;
-        tempx = prev.x * Math.cos(theta) - prev.y * Math.sin(theta);
-        tempy = prev.y * Math.cos(theta) + prev.x * Math.sin(theta);
+
+        tempx = prev.x * Math.cos(theta) - prev.y * Math.sin(theta) + origin.x;
+        tempy = prev.y * Math.cos(theta) + prev.x * Math.sin(theta) + origin.y;
 
         return new Tuple<>(tempx, tempy);
     }
@@ -436,11 +438,13 @@ class FourValues<X, Y, A, B> {
     public Y y;
     public A a;
     public B b;
-    FourValues(X x, Y y, A a, B b) {
+    public Tuple<X,Y> origin;
+    FourValues(X x, Y y, A a, B b, Tuple<X,Y> o) {
         this.x = x;
         this.y = y;
         this.a = a;
         this.b = b;
+        origin = o;
     }
 }
 
